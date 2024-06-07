@@ -39,7 +39,7 @@
             row.appendChild(nameCell);
       
             const scoreCell = document.createElement('td');
-            scoreCell.textContent = item.score + item.score2;
+            scoreCell.textContent = item.score;
             row.appendChild(scoreCell);
       
             tableBody.appendChild(row);

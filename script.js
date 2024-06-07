@@ -154,8 +154,8 @@ function tryAgain() {
         },
         body: JSON.stringify({
           phone: number,
-          score: globalFlips,
-          score2: globalTimeLeft,
+          score: globalTimeLeft,
+          score2: globalFlips,
         }),
       });
     })
