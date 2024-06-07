@@ -6,6 +6,7 @@ const flipCards = document.querySelectorAll(".flip");
 
 let winAudio = new Audio("./audios/win.mp3");
 let lostAudio = new Audio("./audios/lost.mp3");
+let flipAudio = new Audio("./audios/flip.mp3");
 
 let maxTime = 45;
 let timeLeft = maxTime;
@@ -34,6 +35,9 @@ function flipCard({ target: clickedCard }) {
         timer = setInterval(initTimer, 1000);
     }
     if (clickedCard !== cardOne && !disableDeck && timeLeft > 0) {
+        // flipAudio.pause();
+        // flipAudio.currentTime = 0;
+        // flipAudio.play();
         flips++;
         flipsTag.innerText = flips;
         clickedCard.classList.add("flip");
@@ -44,6 +48,7 @@ function flipCard({ target: clickedCard }) {
         disableDeck = true;
         let cardOneImg = cardOne.querySelector(".back-view img").src,
             cardTwoImg = cardTwo.querySelector(".back-view img").src;
+            
         matchCards(cardOneImg, cardTwoImg);
     }
 }
@@ -96,7 +101,7 @@ function shuffleCard() {
         card.classList.remove("flip");
         let imgTag = card.querySelector(".back-view img");
         setTimeout(() => {
-            imgTag.src = `images/img-${arr[index]}.png`;
+            imgTag.src = `images/brand${arr[index]}.png`;
         }, 500);
         card.addEventListener("click", flipCard);
     });
