@@ -1,7 +1,7 @@
 const cards = document.querySelectorAll(".card"),
   timeTag = document.querySelector(".time b"),
   flipsTag = document.querySelector(".flips b"),
-  refreshBtn = document.querySelector(".details button");
+  refreshBtn = document.querySelector(".tryAgainButton");
 const flipCards = document.querySelectorAll(".flip");
 
 let winAudio = new Audio("./audios/win.mp3");
@@ -9,12 +9,14 @@ let lostAudio = new Audio("./audios/lost.mp3");
 
 let maxTime = 45;
 let timeLeft = maxTime;
+let globalTimeLeft = timeLeft;
 let flips = 0;
+let globalFlips = flips;
 let matchedCard = 0;
 let disableDeck = false;
 let isPlaying = false;
 let cardOne, cardTwo, timer;
-
+let gameState
 function initTimer() {
   if (timeLeft <= 0) {
     lostAudio.pause();
@@ -23,9 +25,13 @@ function initTimer() {
     document.querySelector(".modal").classList.add("opened");
     document.querySelector(".prizeTitle").textContent = "باختی!";
     document.querySelector(".modal").style.backgroundColor = "red";
+    gameState = "lost"; // Set the game state to 'won'
+
     return clearInterval(timer);
   }
   timeLeft--;
+  globalTimeLeft = timeLeft; // Update global variable
+
   timeTag.innerText = timeLeft;
 }
 function flipCard({ target: clickedCard }) {
@@ -35,6 +41,7 @@ function flipCard({ target: clickedCard }) {
   }
   if (clickedCard !== cardOne && !disableDeck && timeLeft > 0) {
     flips++;
+    globalFlips = flips;
     flipsTag.innerText = flips;
     clickedCard.classList.add("flip");
     if (!cardOne) {
@@ -65,9 +72,11 @@ function matchCards(img1, img2) {
                     <label for="number">شماره تماس:</label><br>
                     <input type="text" id="number" name="number"><br><br><br><br>
                     </form>`;
-
+      gameState = "won";
+      // console.log(globalTimeLeft, globalFlips);
       return clearInterval(timer);
     }
+
     cardOne.removeEventListener("click", flipCard);
     cardTwo.removeEventListener("click", flipCard);
     cardOne = cardTwo = "";
@@ -89,6 +98,7 @@ function matchCards(img1, img2) {
 
 function shuffleCard() {
   timeLeft = maxTime;
+  globalTimeLeft = timeLeft; // Reset global variable
   flips = matchedCard = 0;
   cardOne = cardTwo = "";
   clearInterval(timer);
@@ -114,29 +124,59 @@ shuffleCard();
 cards.forEach((card) => {
   card.addEventListener("click", flipCard);
 });
-
 function tryAgain() {
- 
-      const fname = document.getElementById("fname").value;
-      const number = document.getElementById("number").value;
+  const fname = document.getElementById("fname").value;
+  const number = document.getElementById("number").value;
 
-      fetch("https://expo.iran.liara.run/login-spin", {
+  fetch("https://expo.iran.liara.run/login-memory", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      phone: number ? number : "",
+      fullname: fname ? fname : "",
+    }),
+  })
+    .then((response) => {
+      response.json();
+    })
+    .then((data) => {
+      console.log("Success:", data);
+      refreshBtn.style.display="none"
+
+      document.getElementById("loading").style.display = "block";
+      return fetch("https://expo.iran.liara.run/score-memory", {
+        // Replace this URL with the correct endpoint
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           phone: number,
-          fullname: fname,
+          score: globalFlips,
+          score2: globalTimeLeft,
         }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-          window.location.href = "./index2.html";
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-  
+      });
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Stats sent successfully:", data);
+      document.getElementById("loading").style.display = "none";
+
+      window.location.href = "./index2.html";
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+
+      document.getElementById("loading").style.display = "none";
+    });
+}
+
+refreshBtn.addEventListener("click", () => {
+  if (gameState === "won") {
+    tryAgain();
+  } else if (gameState === "lost") {
+    window.location.href = "./index2.html";
+  }
+});

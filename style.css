@@ -13,6 +13,52 @@ span,
 b {
   font-family: "farsi" !important;
 }
+body {
+  flex-direction: column;
+}
+
+
+
+.button-74 {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  box-shadow: #422800 4px 4px 0 0;
+  border-radius: 7px;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin-top: 5px;
+  margin-left: 0; /* Aligns the button to the left */
+
+}
+.button-74 a {
+  text-decoration: none;
+}
+
+.button-74:hover {
+  background-color: #fff;
+}
+
+.button-74:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+@media (min-width: 768px) {
+  .button-74 {
+    min-width: 120px;
+    padding: 0 25px;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;

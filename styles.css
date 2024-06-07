@@ -1,0 +1,82 @@
+@font-face {
+  font-family: "farsi";
+  font-weight: 700;
+  font-style: normal;
+  src: url("./fonts/400-AzarMehr-FD-Regular.woff2") format("woff2");
+}
+* {
+  font-family: "farsi";
+}
+table {
+  direction: rtl;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  text-align: right;
+  width: 50vw;
+}
+tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+#loading {
+  text-align: center;
+  font-size: 18px;
+  margin: 20px;
+  display: none;
+}
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns the button to the left */
+}
+.button-40 {
+  background-color: #111827;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  /* flex: 0 0 auto; */
+  font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: 0.75rem 1.2rem;
+  text-align: center;
+  text-decoration-thickness: auto;
+  transition-duration: 0.2s;
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: auto;
+  margin-top: 10px;
+  
+}
+.button-40 a {
+  text-decoration: none #6b7280 solid;
+  color: white;
+}
+.button-40:hover {
+  background-color: #374151;
+}
+
+.button-40:focus {
+  box-shadow: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .button-40 {
+    padding: 0.75rem 1.5rem;
+  }
+}
